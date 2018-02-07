@@ -1,4 +1,4 @@
-const frontEndUrl = 'http://localhost:3000/';
+const frontEndUrl = 'https://savvylink.azurewebsites.net/';
 const port = 3000;
 module.exports= {
     serverUrl: 'http://localhost:' + port,
