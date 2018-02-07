@@ -76,26 +76,19 @@ Organization.statics.Retrieve = function (query, callback) {
     var model = mongoose.model('organizations', Organization);
     console.log('ahm here');
     console.log(query);
-    if(query.query == '') {
-        model.find({}
-         , function (err, results) {
-                if (err) return callback(err);
-                return callback(null, results);
-            }).lean();
-    } else {
         model.find(
             {
                 $or: [
-                    { name: { $regex: query.query, $options: ['i', 'm'] } },
-                    { city: { $regex: query.query, $options: ['i', 'm'] } },
-                    { province: { $regex: query.query, $options: ['i', 'm'] } },
-                    { country: { $regex: query.query, $options: ['i', 'm'] } }
+                    { name: { $regex: query.query, $options: 'i' } },
+                    { city: { $regex: query.query, $options: 'i'} },
+                    { province: { $regex: query.query, $options: 'i' } },
+                    { country: { $regex: query.query, $options: 'i' } }
                 ]
             }, function (err, results) {
                 if (err) return callback(err);
                 return callback(null, results);
             }).lean();
-    }
+    
     
     
 };
@@ -124,10 +117,10 @@ Organization.statics.RetrieveByUserID = function (query, callback) {
     model.find(
         {
             $or: [
-                { name: { $regex: query.query, $options: ['i', 'm'] } },
-                { city: { $regex: query.query, $options: ['i', 'm'] } },
-                { province: { $regex: query.query, $options: ['i', 'm'] } },
-                { country: { $regex: query.query, $options: ['i', 'm'] } }
+                { name: { $regex: query.query, $options: 'i' } },
+                { city: { $regex: query.query, $options: 'i'} },
+                { province: { $regex: query.query, $options: 'i' } },
+                { country: { $regex: query.query, $options: 'i' } }
             ],
             user_id: query.user_id
         }, function (err, results) {

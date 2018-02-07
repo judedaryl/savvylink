@@ -17,6 +17,7 @@ router.get('/all', function (req, res, next) {
 router.get('/', function (req, res, next) {
     Organization.Retrieve(req.query, function (err, results) {
         if (err) {
+            console.log(err);
             res.status(400).send({ error: err.message });
         } else {
             var user_id_list = []

@@ -17,8 +17,8 @@ router.get('/find', (req, res, next) => {
 
     User.find({
         $or: [
-            { name: { $regex: req.query.query, $options: ['i', 'm'] } },
-            { email: { $regex: req.query.query, $options: ['i', 'm'] } },
+            { name: { $regex: req.query.query, $options: 'i' } },
+            { email: { $regex: req.query.query, $options: 'i' } },
         ]
     }, { 'username': 1, 'email': 1, 'name': 1 }, (err, doc) => {
         if (err) {

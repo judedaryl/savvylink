@@ -78,8 +78,8 @@ Contact.statics.Retrieve = function (query, callback) {
         model.find(
             {
                 $or: [
-                    { name: { $regex: query.query, $options: ['i', 'm'] } },
-                    { position: { $regex: query.query, $options: ['i', 'm'] } },
+                    { name: { $regex: query.query, $options: 'i' } },
+                    { position: { $regex: query.query, $options: 'i' } },
                 ]
             }, function (err, results) {
                 if (err) return callback(err);
@@ -112,8 +112,8 @@ Contact.statics.RetrieveByOrg = function (query, callback) {
         model.find(
             {
                 $or: [
-                    { name: { $regex: query.query, $options: ['i', 'm'] } },
-                    { position: { $regex: query.query, $options: ['i', 'm'] } },
+                    { name: { $regex: query.query, $options: 'i' } },
+                    { position: { $regex: query.query, $options: 'i' } },
                 ],
                 org_id: query.org_id
             }, function (err, results) {
@@ -125,25 +125,18 @@ Contact.statics.RetrieveByOrg = function (query, callback) {
 
 Contact.statics.RetrieveByUser = function (query, callback) {
     var model = mongoose.model('contacts', Contact);
-    if (query.query == '') {
-        model.find({}
-            , function (err, results) {
-                if (err) return callback(err);
-                return callback(null, results);
-            }).lean();
-    } else {
         model.find(
             {
                 $or: [
-                    { name: { $regex: query.query, $options: ['i', 'm'] } },
-                    { position: { $regex: query.query, $options: ['i', 'm'] } },
+                    { name: { $regex: query.query, $options: 'i' } },
+                    { position: { $regex: query.query, $options: 'i' } },
                 ],
                 user_id: query.user_id
             }, function (err, results) {
                 if (err) return callback(err);
                 return callback(null, results);
             }).lean();
-    }
+    
 };
 
 Contact.statics.Modify = function (query, callback) {
