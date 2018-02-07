@@ -125,6 +125,13 @@ Contact.statics.RetrieveByOrg = function (query, callback) {
 
 Contact.statics.RetrieveByUser = function (query, callback) {
     var model = mongoose.model('contacts', Contact);
+    if(query.query == '') {
+        model.find({}
+         , function (err, results) {
+                if (err) return callback(err);
+                return callback(null, results);
+            }).lean();
+    } else {
         model.find(
             {
                 $or: [
@@ -136,6 +143,7 @@ Contact.statics.RetrieveByUser = function (query, callback) {
                 if (err) return callback(err);
                 return callback(null, results);
             }).lean();
+        }
     
 };
 

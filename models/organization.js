@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 const db = require('../config/db');
 
-mongoose.connect(db.url,{
+mongoose.connect(db.url, {
     auth: {
-      user: db.user,
-      password: db.pass,  
+        user: db.user,
+        password: db.pass,
     },
     reconnectTries: 60,
     reconnectInterval: 1000,
@@ -32,7 +32,7 @@ var Organization = new mongoose.Schema({
     province: { type: String, required: true },
     country: { type: String, required: true },
     user_id: { type: String, required: true },
-}, { collection: 'organizations' , strict: false});
+}, { collection: 'organizations', strict: false });
 
 Organization.pre('save', function (next) {
     var org = this;
@@ -76,11 +76,18 @@ Organization.statics.Retrieve = function (query, callback) {
     var model = mongoose.model('organizations', Organization);
     console.log('ahm here');
     console.log(query);
+    if (query.query == '') {
+        model.find({}
+            , function (err, results) {
+                if (err) return callback(err);
+                return callback(null, results);
+            }).lean();
+    } else {
         model.find(
             {
                 $or: [
                     { name: { $regex: query.query, $options: 'i' } },
-                    { city: { $regex: query.query, $options: 'i'} },
+                    { city: { $regex: query.query, $options: 'i' } },
                     { province: { $regex: query.query, $options: 'i' } },
                     { country: { $regex: query.query, $options: 'i' } }
                 ]
@@ -88,9 +95,10 @@ Organization.statics.Retrieve = function (query, callback) {
                 if (err) return callback(err);
                 return callback(null, results);
             }).lean();
-    
-    
-    
+    }
+
+
+
 };
 
 var ObjectID = require('mongodb').ObjectID;
@@ -107,26 +115,26 @@ Organization.statics.RetrieveByID = function (query, callback) {
 
 Organization.statics.RetrieveByUserID = function (query, callback) {
     var model = mongoose.model('organizations', Organization);
-    if(query.query == '') {
+    if (query.query == '') {
         model.find({}
-         , function (err, results) {
+            , function (err, results) {
                 if (err) return callback(err);
                 return callback(null, results);
             }).lean();
     } else {
-    model.find(
-        {
-            $or: [
-                { name: { $regex: query.query, $options: 'i' } },
-                { city: { $regex: query.query, $options: 'i'} },
-                { province: { $regex: query.query, $options: 'i' } },
-                { country: { $regex: query.query, $options: 'i' } }
-            ],
-            user_id: query.user_id
-        }, function (err, results) {
-            if (err) return callback(err);
-            return callback(null, results);
-        }).lean();
+        model.find(
+            {
+                $or: [
+                    { name: { $regex: query.query, $options: 'i' } },
+                    { city: { $regex: query.query, $options: 'i' } },
+                    { province: { $regex: query.query, $options: 'i' } },
+                    { country: { $regex: query.query, $options: 'i' } }
+                ],
+                user_id: query.user_id
+            }, function (err, results) {
+                if (err) return callback(err);
+                return callback(null, results);
+            }).lean();
     }
 };
 
