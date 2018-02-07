@@ -38,7 +38,7 @@ module.exports = function(app, passport) {
     passport.use(new LinkedInStrategy({
         consumerKey: config.linkedinAppID,
         consumerSecret: config.linkedinAppSecret,
-        callbackURL: "http://localhost:3000/auth/linkedin/callback",
+        callbackURL: "https://savvylink.azurewebsites.net/auth/linkedin/callback",
         profileFields: ['id', 'first-name', 'last-name', 'email-address', 'picture-url']
         },
         function(accessToken, refreshToken, profile, done) {
