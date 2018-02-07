@@ -1,0 +1,41 @@
+{
+  "name": "savvylink",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "engines":{"node": "0.6.22 || 0.8.x"},
+  "main": "server.js",
+  "dependencies": {
+    "bcrypt": "^1.0.3",
+    "body-parser": "~1.18.2",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "express": "~4.15.5",
+    "express-jwt": "^5.3.0",
+    "express-session": "^1.15.6",
+    "jsonwebtoken": "^8.1.1",
+    "mongodb": "^3.0.2",
+    "mongoose": "^5.0.3",
+    "morgan": "~1.9.0",
+    "nodemon": "^1.14.11",
+    "passport": "^0.4.0",
+    "passport-linkedin": "^1.0.0",
+    "pug": "2.0.0-beta11",
+    "serve-favicon": "~2.4.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Errorr: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/judedaryl/savvylinks.git"
+  },
+  "author": "DLC",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/judedaryl/savvylinks/issues"
+  },
+  "homepage": "https://github.com/judedaryl/savvylinks#readme"
+}
