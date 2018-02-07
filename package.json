@@ -4,7 +4,6 @@
   "description": "",
   "private": true,
   "engines":{"node": "0.6.22 || 0.8.x"},
-  "main": "server.js",
   "dependencies": {
     "bcrypt": "^1.0.3",
     "body-parser": "~1.18.2",
@@ -25,17 +24,16 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Errorr: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node ./bin/www"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/judedaryl/savvylinks.git"
+    "url": "git+https://github.com/judedaryl/savvylink.git"
   },
   "author": "DLC",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/judedaryl/savvylinks/issues"
+    "url": "https://github.com/judedaryl/savvylink/issues"
   },
-  "homepage": "https://github.com/judedaryl/savvylinks#readme"
+  "homepage": "https://github.com/judedaryl/savvylink#readme"
 }
