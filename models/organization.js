@@ -116,7 +116,7 @@ Organization.statics.RetrieveByID = function (query, callback) {
 Organization.statics.RetrieveByUserID = function (query, callback) {
     var model = mongoose.model('organizations', Organization);
     if (query.query == '') {
-        model.find({}
+        model.find({user_id: query.user_id}
             , function (err, results) {
                 if (err) return callback(err);
                 return callback(null, results);

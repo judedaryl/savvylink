@@ -103,7 +103,7 @@ Contact.statics.RetrieveByID = function (query, callback) {
 Contact.statics.RetrieveByOrg = function (query, callback) {
     var model = mongoose.model('contacts', Contact);
     if (query.query == '') {
-        model.find({}
+        model.find({org_id: query.org_id}
             , function (err, results) {
                 if (err) return callback(err);
                 return callback(null, results);
@@ -126,7 +126,7 @@ Contact.statics.RetrieveByOrg = function (query, callback) {
 Contact.statics.RetrieveByUser = function (query, callback) {
     var model = mongoose.model('contacts', Contact);
     if(query.query == '') {
-        model.find({}
+        model.find({user_id: query.user_id}
          , function (err, results) {
                 if (err) return callback(err);
                 return callback(null, results);
