@@ -29,12 +29,12 @@ const mongoose = require('mongoose');
 const db = require('./config/db');
 
 mongoose.connect(db.url, {
-    /*
+    
     auth: {
         user: db.user,
         password: db.pass,
     },
-    */
+    
     reconnectTries: 60,
     reconnectInterval: 1000,
 });
