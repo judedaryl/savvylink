@@ -43,20 +43,7 @@ module.exports = function (Hit) {
   });
 
 
-  router.get('/', function (req, res, next) {
-    Hit.Retrieve(req.body, function (err, res) {
-      if (err) {
-        res.status(400).send({
-          error: err.message
-        });
-      } else {
-        res.status(200).send({
-          success: true,
-          results: res
-        });
-      }
-    });
-  });
+  
 
   return router;
 }
