@@ -232,8 +232,6 @@ module.exports = function (mongoose) {
                 }
             }).lean().skip(offset).limit(limit).sort({
                 [sort]: order
-            }).collation({
-                locale: "en"
             });
         }
 
@@ -301,8 +299,6 @@ module.exports = function (mongoose) {
                 }
             }).lean().skip(offset).limit(limit).sort({
                 [sort]: order
-            }).collation({
-                locale: "en"
             });
         }
 
