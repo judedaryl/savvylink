@@ -1,10 +1,10 @@
-
-// const frontEndUrl = 'https://localhost:3000';
-const frontEndUrl = 'https://savvylink.azurewebsites.net/';
+const debug = true;
+const frontEndUrl = debug? 'https://localhost:4200' : 'https://localhost:3000';
+// 'https://savvylink.azurewebsites.net/'
 const port = 3000;
 module.exports= {
     serverUrl: 'http://localhost:' + port,
-    angularRedirect: 'http://localhost:9000/',
+    angularRedirect: 'http://localhost:3000/',
     jwt : 'J38duw08123WkzxclkEus7D',
     jwtexpire : 3600*5,
 

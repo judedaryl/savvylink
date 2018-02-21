@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var User = require('../models/user');
+
+module.exports = function (Organization, Contact, User) {
 
 router.get('/username', function (req, res, next) {
     console.log(req.query);
@@ -29,4 +30,5 @@ router.get('/find', (req, res, next) => {
     }).lean();
 });
 
-module.exports = router;
+return router;
+}

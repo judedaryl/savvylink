@@ -1,8 +1,8 @@
 var router = require('express').Router();
-var Organization = require('../models/organization');
-var User = require('../models/user');
-var Contact = require('../models/contact');
 var ObjectID = require('mongodb').ObjectID;
+
+module.exports = function (Organization, Contact, User) {
+    
 router.get('/all', function (req, res, next) {
     
     Organization.RetrieveAll(function (err, results) {
@@ -14,57 +14,36 @@ router.get('/all', function (req, res, next) {
     });
 });
 
-router.get('/', function (req, res, next) {
-    Organization.Retrieve(req.query, function (err, results) {
+router.get('/old', function (req, res, next) {
+    Organization.Retrieve2(req.query, function (err, results) {
         if (err) {
             console.log(err);
             res.status(400).send({ error: err.message });
         } else {
-            var user_id_list = []
-            results.forEach(org => {
-                var obj = new ObjectID(org.user_id);
-                user_id_list.push(obj);
-                org.user = [];
-            });
-            User.find({ _id: { $in: user_id_list } }, (err, doc) => {
-                if (err) {
-                    res.status(400).send({ error: err.message });
-                } else {
-                    results.forEach(org => {
-                        var thisuser = doc.find(x => x._id == org.user_id);
-                        org.user.push({ name: thisuser.name, email: thisuser.email, username: thisuser.username });
-                        org.user[0].contacts = [];
-                    });
-                    var org_id_list = [];
-                    results.forEach(x => {
-                        x.contacts = [];
-                        org_id_list.push(x._id);
-                    });
-                    Contact.find({ org_id: { $in: org_id_list } }, (err, doc) => {
-                        doc.forEach(con => {
-                            results.find(x => x._id == con.org_id).contacts.push(con);
-                        });
-                        Contact.find({ user_id: { $in: user_id_list } }, (err, c) => {
-                            
-                            c.forEach(cn => {
-                                results.forEach(or => {
-                                    if(or.user_id == cn.user_id) {
-                                        or.user[0].contacts.push(cn);
-                                    }
-                                })
-                            });
-                            res.status(200).send({ success: true, result: results });
-                        });
-
-                    });
-                }
-            });
-
-
+            res.status(200).send({ success: true, result: results });         
         }
     });
 });
 
+router.get('/', function (req, res, next) {
+    Organization.Retrieve(req.query, function (err, results) {
+        if (err) {
+            res.status(400).send({ error: err.message });
+        } else {
+            res.send({ success: true, result: results });         
+        }
+    });
+});
+
+router.get('/contribution', function(req,res,next) {
+    Organization.RetrieveByContribution(req.query, function (err, results) {
+        if (err) {
+            res.status(400).send({ error: err.message });
+        } else {
+            res.status(200).send({ success: true, result: results });         
+        }
+    });
+})
 
 router.get('/user', function (req, res, next) {
     Organization.RetrieveByUserID(req.query, function (err, results) {
@@ -133,4 +112,6 @@ router.get('/checkname', function (req, res, next) {
         }
     });
 });
-module.exports = router;
+
+return router;
+}

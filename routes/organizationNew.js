@@ -1,6 +1,6 @@
 var router = require('express').Router();
-var Organization = require('../models/organization');
 
+module.exports = function (Organization, Contact, User) {
 router.post('/', function (req,res,next) {
     Organization.Create(req.body, function (err, org) {
         if (err) {
@@ -11,4 +11,5 @@ router.post('/', function (req,res,next) {
     });
 });
 
-module.exports = router;
+return router;
+}

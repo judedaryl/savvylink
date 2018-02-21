@@ -71,6 +71,10 @@ THE SOFTWARE.
 MIT
 MIT
 
+datatables.net-dt@1.10.16
+MIT
+MIT
+
 semantic-ui-css@2.2.14
 MIT
 The MIT License (MIT)

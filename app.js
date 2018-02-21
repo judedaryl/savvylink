@@ -23,6 +23,39 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
+// MongoDB Collections and Schema
+
+const mongoose = require('mongoose');
+const db = require('./config/db');
+
+mongoose.connect(db.url, {
+    /*
+    auth: {
+        user: db.user,
+        password: db.pass,
+    },
+    */
+    reconnectTries: 60,
+    reconnectInterval: 1000,
+});
+mongoose.connection.on('connected', function () {
+    console.log('Connected to MongoDB');
+});
+
+// If the connection throws an error
+mongoose.connection.on('error', function (err) {
+    console.log('OrgDB connection error: ' + err);
+});
+
+// When the connection is disconnected
+mongoose.connection.on('disconnected', function () {
+    console.log('OrgDB connection disconnected');
+});
+
+var contactmodel = require('./models/contact')(mongoose);
+var organizationmodel = require('./models/organization')(mongoose);
+var usermodel = require('./models/user')(mongoose);
+var statmodel = require('./models/hit')(mongoose);
 // CORS
 app.use(function(req,res,next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -44,26 +77,28 @@ var privatekey = config.jwt;
 
 app.use('/api',expressJwt({secret: privatekey}));
 
-var userapi = require('./routes/userapi');
+var userapi = require('./routes/userapi')(organizationmodel,contactmodel,usermodel);
 app.use('/api/userapi', userapi);
-var neworganization = require('./routes/organizationNew');
-var getorganization = require('./routes/organizationGet');
-var delorganization = require('./routes/organizationDel');
-var putorganization = require('./routes/organizationPut');
+var neworganization = require('./routes/organizationNew')(organizationmodel,contactmodel,usermodel);
+var getorganization = require('./routes/organizationGet')(organizationmodel,contactmodel,usermodel);
+var delorganization = require('./routes/organizationDel')(organizationmodel,contactmodel,usermodel);
+var putorganization = require('./routes/organizationPut')(organizationmodel,contactmodel,usermodel);
 app.use('/api/organization/get', getorganization);
 app.use('/api/organization/create', neworganization);
 app.use('/api/organization/modify', putorganization);
 app.use('/api/organization/remove', delorganization);
 
-var contactroute = require('./routes/contact');
+var contactroute = require('./routes/contact')(organizationmodel,contactmodel,usermodel);
 app.use('/api/contact', contactroute);
-var userroute = require('./routes/user');
+var userroute = require('./routes/user')(organizationmodel,contactmodel,usermodel);
 app.use('/user', userroute);
 
+var statistics = require('./routes/hit')(statmodel);
+app.use('/hit', statistics);
 var authentication = require('./auth/authentication');
 app.use('/api/auth', authentication);
 
-var authlinkedin = require('./auth/linkedin')(app,passport);
+var authlinkedin = require('./auth/linkedin')(app,passport,usermodel);
 
 app.use(express.static(path.join(__dirname, 'public/dist')));
 app.get('*', (req,res) => {
