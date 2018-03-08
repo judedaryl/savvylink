@@ -1,0 +1,117 @@
+<div class="ui borderless menu width-full">
+  <div class="item">
+    <a class="ui teal right labeled icon button" title="View all contacts" routerLink="/organizations/{{data['org_id']}}">
+      View all contacts
+      <i class="address book icon"></i>
+    </a>
+  </div>
+  <div class="right menu">
+    <div class="item">
+      <button class="ui green right labeled icon button" title="Add new contact" (click)="addContact()" *ngIf="isUser">
+        Add contact
+        <i class="add square icon"></i>
+      </button>
+    </div>
+    <div class="item">
+      <button class="ui right yellow icon button" (click)="printpdf()" title="Print">
+        <i class="print icon"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="ui basic segment" style="padding:0px">
+  <table class="ui celled table" datatable [dtTrigger]="dtTrigger" [dtOptions]="dtOptions">
+    <thead>
+      <tr>
+        <th>Position</th>
+        <th>Name</th>
+        <!--<th>Contact</th>-->
+        <th *ngIf="isUser" class="collapsing">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let con of contactlist">
+        <td>
+          {{con['position']}}
+        </td>
+        <td>
+          <span *ngIf="con['name'] !== 'null'">{{con['name']}}</span>
+        </td>
+        <!--<td>
+          <span *ngIf="con['contact'] !== 'null'">{{con['contact']}}</span>
+        </td>-->
+        <td class="collapsing" *ngIf="isUser">
+          <a class="ui icon basic button" title="Modify" (click)="editContact(con._id)">
+            <i class="write green icon"></i>
+          </a>
+          <button class="ui icon basic button" title="Remove" (click)="deleteApprove(con._id, con.name)">
+            <i class="remove red icon"></i>
+          </button>
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
+  <div class="ui  inverted dimmer">
+    <div class="ui text loader">Fetching some fresh goods</div>
+  </div>
+</div>
+
+<div class="ui mini modal edit_contact">
+  <div class="header">
+    Edit Contact
+  </div>
+  <div>
+    <div class="ui grid container" style="margin:0px !important">
+      <div class="sixteen wide column" style="padding:20px;">
+        <app-contactform></app-contactform>
+      </div>
+    </div>
+  </div>
+  <div class="actions">
+    <div class="ui deny black button">
+      Cancel
+    </div>
+    <button class="ui positive right labeled icon button" (click)="submitEditContact()">
+      Save
+      <i class="save icon"></i>
+    </button>
+  </div>
+</div>
+
+<div class="ui mini modal contacts">
+  <div class="header">
+    Add contact
+  </div>
+  <div>
+    <div class="ui grid container" style="margin:0px !important">
+      <div class="sixteen wide column" style="padding:20px;">
+        <app-contactform></app-contactform>
+      </div>
+    </div>
+  </div>
+  <div class="actions">
+    <div class="ui deny black button">
+      Cancel
+    </div>
+    <button class="ui positive right labeled icon button" (click)="submitContact()">
+      Add
+      <i class="send icon"></i>
+    </button>
+  </div>
+</div>
+
+<div class="ui tiny modal delete_contact">
+  <div class="header">{{approvemodal['header']}}</div>
+  <div class="content">
+    <p>{{approvemodal['text']}}</p>
+  </div>
+  <div class="actions">
+    <button class="ui approve green right labeled icon button deleteapproveBtn" (click)="delete(approvemodal['con_id'])">
+      Approve
+      <i class="remove icon"></i>
+    </button>
+    <button class="ui cancel button black">Cancel</button>
+  </div>
+</div>

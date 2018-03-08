@@ -18,7 +18,9 @@ app.set('view engine', 'pug');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -28,37 +30,41 @@ app.use(express.static(path.join(__dirname, 'public')));
 const mongoose = require('mongoose');
 const db = require('./config/db');
 
-mongoose.connect(db.url, {
-    
-    auth: {
-        user: db.user,
-        password: db.pass,
-    },
-    
-    
-    reconnectTries: 60,
-    reconnectInterval: 1000,
-});
-mongoose.connection.on('connected', function () {
-    console.log('Connected to MongoDB');
-});
 
-// If the connection throws an error
-mongoose.connection.on('error', function (err) {
-    console.log('OrgDB connection error: ' + err);
-});
+// mongoose.connect(db.url, {
+//   /**
+//    *     
+//       auth: {
+//           user: db.user,
+//           password: db.pass,
+//       },
+      
+//    */
 
-// When the connection is disconnected
-mongoose.connection.on('disconnected', function () {
-    console.log('OrgDB connection disconnected');
-});
+//   reconnectTries: 60,
+//   reconnectInterval: 1000,
+// });
+// mongoose.connection.on('connected', function () {
+//   console.log('Connected to MongoDB');
+// });
 
-var contactmodel = require('./models/contact')(mongoose);
-var organizationmodel = require('./models/organization')(mongoose);
-var usermodel = require('./models/user')(mongoose);
-var statmodel = require('./models/hit')(mongoose);
+// // If the connection throws an error
+// mongoose.connection.on('error', function (err) {
+//   console.log('OrgDB connection error: ' + err);
+// });
+
+// // When the connection is disconnected
+// mongoose.connection.on('disconnected', function () {
+//   console.log('OrgDB connection disconnected');
+// });
+
+// var contactmodel = require('./models/contact')(mongoose);
+// var organizationmodel = require('./models/organization')(mongoose);
+// var usermodel = require('./models/user')(mongoose);
+// var statmodel = require('./models/hit')(mongoose);
+
 // CORS
-app.use(function(req,res,next) {
+app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
   res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
@@ -76,52 +82,75 @@ var expressJwt = require('express-jwt');
 var config = require('./config/config');
 var privatekey = config.jwt;
 
-app.use('/api',expressJwt({secret: privatekey}));
+app.use('/api', expressJwt({
+  secret: privatekey
+}));
 
-var userapi = require('./routes/userapi')(organizationmodel,contactmodel,usermodel);
-app.use('/api/userapi', userapi);
-var neworganization = require('./routes/organizationNew')(organizationmodel,contactmodel,usermodel);
-var getorganization = require('./routes/organizationGet')(organizationmodel,contactmodel,usermodel);
-var delorganization = require('./routes/organizationDel')(organizationmodel,contactmodel,usermodel);
-var putorganization = require('./routes/organizationPut')(organizationmodel,contactmodel,usermodel);
-app.use('/api/organization/get', getorganization);
+// var userapi = require('./routes/userapi')(organizationmodel, contactmodel, usermodel);
+var userapisql = require('./routes/sql/userapi')();
+app.use('/api/userapi', userapisql);
+// app.use('/api/userapi3', userapi);
+// var neworganization = require('./routes/organizationNew')(organizationmodel, contactmodel, usermodel);
+// var getorganization = require('./routes/organizationGet')(organizationmodel, contactmodel, usermodel);
+// var delorganization = require('./routes/organizationDel')(organizationmodel, contactmodel, usermodel);
+// var putorganization = require('./routes/organizationPut')(organizationmodel, contactmodel, usermodel);
+
+/**
+ *  ORGANIZATION API
+ * 
+ * 
 app.use('/api/organization/create', neworganization);
 app.use('/api/organization/modify', putorganization);
 app.use('/api/organization/remove', delorganization);
+ */
+// app.use('/api/organization2/get', getorganization);
 
-var contactroute = require('./routes/contact')(organizationmodel,contactmodel,usermodel);
-app.use('/api/contact', contactroute);
-var userroute = require('./routes/user')(organizationmodel,contactmodel,usermodel);
-app.use('/user', userroute);
+/** 
+ *  ORGANIZATION API SQL
+ */
+var organizationsql = require('./routes/sql/organization')();
+app.use('/api/organization', organizationsql);
+var compute = require('./routes/compute')();
+app.use('/compute', compute);
+// var contactroute = require('./routes/contact')(organizationmodel, contactmodel, usermodel);
+var contactroutesql = require('./routes/sql/contact')();
+// app.use('/api/contact', contactroute);
+app.use('/api/contact', contactroutesql);
+// var userroute = require('./routes/user')(organizationmodel, contactmodel, usermodel);
+var usersqlroute = require('./routes/sql/user')();
+app.use('/user', usersqlroute);
 
-var statistics = require('./routes/hit')(statmodel);
-app.use('/hit', statistics);
+// var statistics = require('./routes/hit')(statmodel);
+var statisticssql = require('./routes/sql/hit')();
+app.use('/hit', statisticssql);
+
+
 var authentication = require('./auth/authentication');
 app.use('/api/auth', authentication);
 
-var authlinkedin = require('./auth/linkedin')(app,passport,usermodel);
+// var authlinkedin = require('./auth/linkedin')(app, passport);
 
 app.use(express.static(path.join(__dirname, 'public/dist')));
-app.get('*', (req,res) => {
+app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/dist/index.html'));
 });
-app.get('/', (req,res) => {
+app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/dist/index.html'));
 });
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
-  if(err.name === 'UnauthorizedError') {
+  if (err.name === 'UnauthorizedError') {
     res.status(401).send('Invalid token')
     return;
-}
+  }
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 

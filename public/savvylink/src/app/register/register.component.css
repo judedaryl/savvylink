@@ -1,0 +1,49 @@
+.reg-form{
+    padding: 10px 20px 10px 20px !important;
+    border: 1px solid #d8dee2 !important;
+    border-radius: 5px !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    background: white !important;
+}
+.reg-backdrop {
+    background: #2a2433;
+    background-size: 100%;
+    padding: 50px;
+    margin-top: 0px !important;
+}
+.f2-light{
+    font-size: 22px !important;
+    font-weight: 300 !important;
+    color: #333;
+}
+
+.note {
+    min-height: 17px;
+    margin: 4px 0 2px 0;
+    font-size: 12px;
+    color: #333;        
+}
+
+.form-info{
+    width: 300px !important;
+}
+
+.ng-valid[required], .ng-valid.required input {
+    border: 1px solid #42A948 !important; /* green */
+}
+.ng-invalid.ng-dirty:not(form) {
+    border: 1px solid #a94442 !important; /* red */ 
+}
+.invalid_pass {
+    border: 1px solid #a94442 !important; /* red */ 
+}
+.ui.form .warning.message, .ui.form {
+display: block;
+}  
+.ui.input.error input { 
+    background-color: #fff6f6 !important; 
+    border-color: #e0b4b4 !important; 
+}
+.ui.button.labeled.icon {
+    text-align:left;
+}

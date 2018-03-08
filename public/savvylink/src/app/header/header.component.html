@@ -1,0 +1,42 @@
+<div class="ui borderless menu inverted" id="mainheader" *ngIf="hasHeader" style="background: #24292e">
+  <a class="item logo-holder" routerLink="/">
+    <img src="assets/logo-colored.png">
+  </a>
+  <div class="item" style="width:20em" *ngIf="isLoggedIn_">
+    <div class="ui search user_search_header width-full">
+      <div class="ui left icon input  width-full">
+        <input class="prompt" type="text" placeholder="Contributor name or email">
+        <i class="user icon"></i>
+      </div>
+    </div>
+  </div>
+  <a class="item" routerLink="/organizations">Organizations</a>
+  <a class="item" routerLink="/contacts">Contacts</a>
+  <div class="right menu">
+    <div class="ui buttons" *ngIf="!isLoggedIn_">
+      <button class="ui teal  button" routerLink="/login">Sign In</button>
+      <div class="or"></div>
+      <button class="ui purple button" routerLink="/register">Sign Up</button>
+    </div>
+    <a class="item ui" href="/contributions/{{user['username']}}" *ngIf="isLoggedIn_">
+      <i class="user circle icon"></i>
+      Your contributions
+    </a>
+    <div class="ui dropdown item right user-options" style="padding:0px" *ngIf="isLoggedIn_">
+      <img class="ui inline mini rounded image " src="{{ user['photo'] }}">
+      <i class="icon caret down"></i>
+      <div class="menu">
+        <div class="header ui">
+          <i class="icon user"></i>
+          Signed in as {{user['displayname']}}
+        </div>
+        <div class="divider"></div>
+       
+        <a class="item ui width-full" (click)="signOut()">
+          <i class="sign out icon"></i>
+          Sign Out
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

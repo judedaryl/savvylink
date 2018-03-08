@@ -1,0 +1,40 @@
+<div class="ui container" style="margin-top:50px; margin-bottom:50px">
+
+  <div class="ui segment">
+    <div class="ui borderless secondary menu">
+      <div class="item">
+        <button class="ui icon right labeled button yellow print_btn" data-content="Print" (click)="printpdf()">
+          Print
+          <i class="print icon"></i>
+        </button>
+      </div>
+    </div>
+      <table class="ui celled table" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+        <thead>
+          <tr>
+            <th>Position</th>
+            <th>Name</th>
+            <th>Organization</th>
+            <th>Contributor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let con of contactlist">
+            <td>{{con['position']}}</td>
+            <td>{{con['name']}}</td>
+            <td>
+              <a routerLink="/organizations/{{con['organization']['org_id']}}">
+                {{con['organization']['org_name']}}
+              </a>
+            </td>
+            <td>
+              <a href="/contributions/{{con['user']['username']}}">
+                {{con['user']['displayname']}}
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+  </div>
+</div>
+

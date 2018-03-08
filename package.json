@@ -19,17 +19,22 @@
     "express": "~4.15.5",
     "express-jwt": "^5.3.0",
     "express-session": "^1.15.6",
+    "jsontoxml": "^1.0.0",
     "jsonwebtoken": "^8.1.1",
     "mongodb": "^3.0.2",
     "mongoose": "^5.0.3",
     "morgan": "~1.9.0",
+    "mssql": "^4.1.0",
+    "node-datetime": "^2.0.6",
     "nodemon": "^1.14.11",
     "passport": "^0.4.0",
     "passport-azure-ad": "^3.0.10",
     "passport-linkedin": "^1.0.0",
     "pug": "2.0.0-beta11",
     "restify": "^6.3.4",
-    "serve-favicon": "~2.4.5"
+    "serve-favicon": "~2.4.5",
+    "tedious": "^2.3.1",
+    "xml": "^1.0.1"
   },
   "devDependencies": {},
   "scripts": {

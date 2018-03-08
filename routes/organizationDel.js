@@ -3,6 +3,7 @@ var router = require('express').Router();
 
 module.exports = function (Organization, Contact, User) {
 router.delete('/', function (req,res,next) {
+    console.log(req.body);
     Organization.RemoveContribute(req.body, function (err, org) {
         if (err) {
             res.status(400).send({error: err.message});

@@ -1,0 +1,110 @@
+<div class="ui grid stackable reg-backdrop" style="margin-top:5em">
+    <div class="seven wide column "></div>
+
+    <div class="five wide column reg-form">
+        <h2 class="alt-lead mb-4 ui dividing header" style="margin-top:5px">
+            Be a contributor
+        </h2>
+        <div *ngIf="response['HasError']" class="ui mini message warning">
+            <div class="header">{{response['Error']}}</div>
+        </div>
+        <form class="ui form" [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+            <div class="field">
+                <label>Username</label>
+                <div class="inline">
+                    <div class="ui left icon input login-username">
+                        <input type="text" placeholder="Username" formControlName="username">
+                        <i class="user outline icon username-icon"></i>
+                    </div>
+                    <div *ngIf="registrationForm.get('username').status === 'INVALID' && (registrationForm.get('username').dirty || registrationForm.get('username').touched)"
+                        class="ui left red basic label" style="float:right; margin-top:2px">
+                        Please enter a username.
+                    </div>
+                    <div *ngIf="response['UsernameUsed'] && (registrationForm.get('username').dirty || registrationForm.get('username').touched)" class="ui left red basic label"
+                        style="float:right; margin-top:2px">
+                        Username is already used.
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <label>Name</label>
+                <div class="fields">
+                    <div class="eight wide field">
+                        <input type="text" placeholder="First Name" formControlName="firstname">
+                    </div>
+                    <div class="eight wide field">
+                        <input type="text" placeholder="Last Name" formControlName="lastname">
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <label>Email</label>
+                <div class="inline">
+                    <div class="ui left icon input login-email">
+                        <input type="text" placeholder="you@example.com" email formControlName="email">
+                        <i class="open envelope outline icon email-icon"></i>
+                    </div>
+                    <div *ngIf="registrationForm.get('email').status === 'INVALID' && (registrationForm.get('email').dirty || registrationForm.get('email').touched)"
+                        class="ui left red basic label" style="float:right; margin-top:2px">
+                        Please enter a valid email address.
+                    </div>
+                    <div *ngIf="response['EmailUsed'] && (registrationForm.get('email').dirty || registrationForm.get('email').touched)" class="ui left red basic label"
+                        style="float:right; margin-top:2px">
+                        Email address is no longer available.
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <label>Password</label>
+                <div class="ui left icon input login-password">
+                    <input type="password" placeholder="Password" formControlName="password">
+                    <i class="lock icon"></i>
+                </div>
+                <div *ngIf="registrationForm.get('password').status === 'INVALID' && (registrationForm.get('password').dirty || registrationForm.get('password').touched)"
+                    class="ui left red basic label" style="float:right; margin-top:2px">
+                    Please enter a password.
+                </div>
+            </div>
+            <button class="ui button violet" [disabled]="!disablebutton">Sign Up</button>
+        </form>
+    </div>
+    <div class="three wide column pd-0">
+        <div class="ui raised segments">
+            <div class="ui segment">
+                <h4>By Sherpas for Sherpas</h4>
+            </div>
+            <div class="ui grid segment">
+                <div class="column">
+                    <i class="ui icon checkmark green"></i>
+                </div>
+                <div class="thirteen wide column" style="padding-right:0px">
+                    Share your contacts.
+                </div>
+            </div>
+            <div class="ui grid segment">
+                <div class="column">
+                    <i class="ui icon checkmark green"></i>
+                </div>
+                <div class="thirteen wide column" style="padding-right:0px">
+                    View fellow Sherpa's contacts.
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="ui raised segment">
+            <h4 class="ui horizontal divider header">
+                or login with
+            </h4>
+            <a class="ui button labeled icon linkedin width-full" href="{{linkedin}}">
+                <i class="linkedin icon"></i>
+                Linked In
+            </a>
+        </div>
+
+    </div>
+
+
+    <div class="one wide column"></div>
+</div>

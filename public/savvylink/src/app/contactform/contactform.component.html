@@ -1,0 +1,20 @@
+<div class="ui container">
+  <form class="ui form" [formGroup]="contact">
+    <div class="field">
+      <label>Position
+        <span style="color:red">*</span>
+      </label>
+      <input type="text" placeholder="e.g. CEO" formControlName="position" />
+    </div>
+    <div class="field">
+      <label>Name</label>
+      <input type="text" placeholder="Contact person name." formControlName="name" />
+    </div>
+<!--
+      <div class="field">
+      <label>Contact</label>
+      <input type="text" placeholder="Mobile number or email." formControlName="contact" />
+    </div>
+-->
+  </form>
+</div>

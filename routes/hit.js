@@ -8,6 +8,7 @@ var privatekey = config.jwt;
 
 module.exports = function (Hit) {
   router.post('/', function (req, res, next) {
+
     var userinfo;
     if (req.headers['authorization']) {
       var str = req.headers['authorization'].substring(7);
@@ -21,8 +22,8 @@ module.exports = function (Hit) {
           id: '',
         }
       }
-
     }
+    
     var ip = req.connection.remoteAddress;
     var data = {
       ip: ip,
@@ -43,7 +44,7 @@ module.exports = function (Hit) {
   });
 
 
-  
+
 
   return router;
 }
