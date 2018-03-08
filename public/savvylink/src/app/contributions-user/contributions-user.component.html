@@ -1,0 +1,78 @@
+<div class="contrib_stack_1">
+  <div class="ui container" style="padding-top:50px">
+    <div class="ui grid center aligned">
+      <div class="row">
+        <div class="one wide column"></div>
+        <div class="fourteen wide column">
+          <div class="ui grid stackable">
+            <div class="row">
+              <div class="sixteen wide column equal height">
+                <div class="ui segments" style="border: none !important; box-shadow: none !important">
+                  <div class="ui segment block" style="height:200px" style="background: transparent !important; border: none !important;">
+                    <h1 class="alt-h0 text-white lh-condensed-ultra mb-3">
+                      {{contributor['name']}}
+                    </h1>
+                    <p class="alt-lead mb-4 text-white">
+                      Contributions </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="one wide column"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="ui container" style="margin-top:50px">
+  <div class="ui grid">
+    <div class="row">
+      <div class="sixteen wide column">
+        <div class="ui grid stackable">
+          <div class="row">
+            <div class="four wide column equal height">
+              <div class="ui vertical menu">
+                <div class="item header">
+                  <p *ngIf = "isUser">Your Contributions</p>
+                  <p *ngIf = "!isUser">Contributions</p>
+                </div>
+                <div class="item">
+                  <div style="margin-bottom:10px">
+                    <div class="subheader">
+                      <i class="icon user circle"></i><b style="margin-bottom:10px">Name</b>
+                      <p>{{contributor['name']}}</p>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="subheader">
+                      <i class="icon mail outline"></i><b style="margin-bottom:10px">Email</b>
+                      <p>{{contributor['email']}}</p>
+                    </div>
+                  </div>
+                </div>
+                <a class="item" routerLink="organizations">
+                  <i class="grid layout icon"></i> Organizations
+                </a>
+                <a class="item" routerLink="contacts">
+                  <i class="address book outline icon"></i> Contacts
+                </a>
+              </div>
+            </div>
+            <div class="twelve wide column equal height">
+              <div class="ui dimmer">
+                <div class="ui text loader">Grabbing some bytes.</div>
+              </div>
+              <main [@fadeAnimation]="getRouterOutletState(o)">
+
+              </main>
+              <div class="mb-50">
+                <router-outlet #o="outlet"></router-outlet>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
