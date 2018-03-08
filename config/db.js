@@ -1,4 +1,5 @@
 module.exports = {
+
   //mah cosmos
   // url: "mongodb://savvy-link.documents.azure.com:10255/savvylink?ssl=true&replicaSet=globaldb",
   //user: 'savvy-link',
@@ -21,3 +22,4 @@ module.exports = {
     }
   }
 };
+
