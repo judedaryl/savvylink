@@ -13,7 +13,7 @@ router.put('/', function (req,res,next) {
     Contact.UpdateFromOrg(req.body);
 });
 
-router.put('/contribute', function(req,res,next) {
+router.put('/contribute', (req,res,next) => {
     Organization.Contribute(req.body, function(err) {
         if (err) {
             res.status(400).send({error: err.message});

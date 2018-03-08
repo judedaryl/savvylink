@@ -12,6 +12,8 @@ router.get('/get/all', function (req, res, next) {
     });
 });
 
+
+
 router.get('/get', function (req, res, next) {
     Contact.Retrieve(req.query, function (err, results) {
         if (err) {
@@ -45,16 +47,6 @@ router.get('/get/org', function (req, res, next) {
 
 router.get('/get/org/contribution', function (req, res, next) {
     Contact.RetrieveByOrganizationContribution(req.query, function (err, results) {
-        if (err) {
-            res.status(400).send({ error: err.message });
-        } else {
-            res.status(200).send({ success: true, result: results });
-        }
-    });
-});
-
-router.get('/get/usesrs', function (req, res, next) {
-    Contact.RetrieveByUser2(req.query, function (err, results) {
         if (err) {
             res.status(400).send({ error: err.message });
         } else {

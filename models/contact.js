@@ -132,6 +132,8 @@ Contact.statics.Retrieve = function (query, callback) {
             }
         }).lean().skip(offset).limit(limit).sort({
             [sort]: order
+        }).collation({
+            locale: "en"
         });
     }
     var actualquery_count = function (callback) {
@@ -262,6 +264,8 @@ Contact.statics.RetrieveByOrganization = function (query, callback) {
             }
         }).lean().skip(offset).limit(limit).sort({
             [sort]: order
+        }).collation({
+            locale: "en"
         });
     }
     var actualquery_count = function (callback) {
@@ -348,6 +352,8 @@ Contact.statics.RetrieveByOrganizationContribution = function (query, callback) 
             }
         }).lean().skip(offset).limit(limit).sort({
             [sort]: order
+        }).collation({
+            locale: "en"
         });
     }
     var actualquery_count = function (callback) {
@@ -447,6 +453,8 @@ Contact.statics.RetrieveByUser = function(query, callback) {
                 return callback(null, results);
             }).lean().skip(offset).limit(limit).sort({
                 [sort]: order
+            }).collation({
+                locale: "en"
             });
         }  
 

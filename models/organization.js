@@ -232,6 +232,8 @@ module.exports = function (mongoose) {
                 }
             }).lean().skip(offset).limit(limit).sort({
                 [sort]: order
+            }).collation({
+                locale: "en"
             });
         }
 
@@ -299,6 +301,8 @@ module.exports = function (mongoose) {
                 }
             }).lean().skip(offset).limit(limit).sort({
                 [sort]: order
+            }).collation({
+                locale: "en"
             });
         }
 
@@ -339,7 +343,6 @@ module.exports = function (mongoose) {
         }
 
         async.parallel([countquery, actualquery, actualquery_count], function (err, results) {
-            console.log('counter', results[1]);
             if (err) return callback(err);
             else return callback(null, {
                 count: results[0],
@@ -422,6 +425,8 @@ module.exports = function (mongoose) {
 
     Organization.statics.RemoveContribute = function (query, callback) {
         var objid = new ObjectID(query.id);
+        console.log(objid);
+        console.log(query.user_id);
 
         var model = mongoose.model('organizations', Organization);
         model.update({
@@ -445,6 +450,7 @@ module.exports = function (mongoose) {
     };
 
     Organization.statics.Modify = function (query, callback) {
+        console.log(query);
         var objid = new ObjectID(query.id);
         var q = {
             'name': query.name,
