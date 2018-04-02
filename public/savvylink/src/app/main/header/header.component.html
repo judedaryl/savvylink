@@ -1,0 +1,50 @@
+<div class="ui secondary borderless stackable menu" style="background: #d8ab07; margin-bottom:0">
+  <div class="ui container">
+    <a class="item" routerLink="/">
+      <h5 class="ui header">
+        <div class="content">
+          Savvylink
+        </div>
+      </h5>
+    </a>
+    <div class="item" style="width:20em" *ngIf="authenticated">
+        <div class="ui search user_search_header width-full">
+          <div class="ui left icon input  width-full">
+            <input class="prompt" type="text" placeholder="Contributor name or email">
+            <i class="user icon"></i>
+          </div>
+        </div>
+      </div>
+    <a class="item" routerLink="/organization-list" *ngIf="authenticated">
+      <i class="clock outline icon"></i>
+      Organization
+    </a>
+    <a class="item" routerLink="/contact-list" *ngIf="authenticated">
+      <i class="clipboard icon"></i>
+      Contacts
+    </a>
+
+    <div class="right menu">
+      <a class="item" routerLink="/contributions/{{username}}" *ngIf="authenticated">
+        <i class="user circle icon"></i>
+        {{name}}
+      </a>
+      <a class="item" *ngIf="authenticated" (click)="logoutmodal()">
+        <i class="sign out icon"></i>Log out
+      </a>
+
+    </div>
+  </div>
+</div>
+
+<div class="ui tiny modal logout_modal" id="">
+  <div class="header">Ready to Leave?</div>
+  <div class="content">
+    Are you sure you want to Log Out?
+  </div>
+  <div class="actions">
+
+    <div class="ui black cancel button" style="float:left">Cancel</div>
+    <button class="ui blue approve button" (click)="logout()">Log Out</button>
+  </div>
+</div>

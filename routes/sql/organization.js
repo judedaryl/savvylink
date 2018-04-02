@@ -27,6 +27,28 @@ module.exports = function () {
         });
     });
 
+    
+    router.get('/get/all', (req, res, next) => {
+        OrgModel.retrieve_(req.query, 'getall' ,(err, resp) => {
+            if (err) res.status(400).send({
+                error: err
+            });
+            else {
+
+
+                var responseObject = {
+                    success: true,
+                    result: {
+                        count: resp.total,
+                        filtered: resp.result.length,
+                        data: resp.result
+                    }
+                }
+                res.status(200).send(responseObject);
+             }
+        });
+    });
+
     router.get('/get/contribution', (req,res,next) => {
         OrgModel.retrieve(req.query, 'contribution' ,(err, resp) => {
             if (err) res.status(400).send({
@@ -113,7 +135,7 @@ module.exports = function () {
         ContributorModel.delete(req.body, (err, resp)=> {
             if(err) res.status(400).send({error: err});
             else {
-                ContactModel.removewithorg(req.bodu, (errs,resp) => {
+                ContactModel.removewithorg(req.body, (errs,resp) => {
                     if(err) res.status(400).send({error: errs.message});
                     else res.status(200).send({success: true});
                 });
@@ -131,7 +153,10 @@ module.exports = function () {
     router.put('/modify/contribute', (req,res,next)=>{
         ContributorModel.create(req.body, (err, resp)=> {
             if(err) res.status(400).send({error: err});
-            else res.status(200).send({success: true});
+            else {
+                if(resp == 1) res.status(200).send({success: true});
+                else res.status(200).send({success: false});
+            }
         });
     });
 

@@ -61,7 +61,7 @@ class UserModel {
                                 photo: result.UserPhoto,
                             }
                             var token = jsonwebtoken.sign(userdata, privatekey, {
-                                expiresIn: config.jwtexpire
+                                // expiresIn: config.jwtexpire
                             });
                             callback(null, {
                                 status: "ok",

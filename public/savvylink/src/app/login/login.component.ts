@@ -1,31 +1,32 @@
-import { LoginResponse } from './../login-addon/models/response';
+import { GenericErrorResponse } from './../../model/genericerror';
+import { UserDao } from './../../dao/user';
+import { AuthenticationService } from './../services/authentication.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
-import { User } from '../models/user';
-import { AuthService } from '../auth/auth.service';
-import { config } from '../../../config/app';
 
 
 declare var $: any;
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
-  response = LoginResponse;
+  error: GenericErrorResponse = new GenericErrorResponse();
   returnURL: string;
-  test = 'asdasd';
+  isSending = false;
   ngOnInit() {
-    console.log(this.route);
+    this.error.state = false;
     this.returnURL = this.route.snapshot.queryParams['returnURL'] || '/';
+    this.loginForm.valueChanges.subscribe(() => this.error.state = false);
   }
 
 
-  constructor(public auth: AuthService, private builder: FormBuilder, private router: Router, private route: ActivatedRoute) {
+  constructor(public auth: AuthenticationService, private builder: FormBuilder, private router: Router, private route: ActivatedRoute,
+    private userDao: UserDao) {
     this.route.params.subscribe(params => {
       if (params['status']) {
 
@@ -42,11 +43,20 @@ export class LoginComponent implements OnInit {
   }
 
   async onSubmit() {
-    this.response['HasError'] = false;
-    $('#email').removeClass('ng-invalid');
-    $('.ui.form').addClass('loading');
-    const user = new User(this.loginForm.value);
-    this.observeResponse(user.login());
+    this.isSending = true;
+    this.userDao.login(this.loginForm.value).subscribe(
+      resp => {
+        this.isSending = false;
+        this.error.state = false;
+        this.auth.login(resp);
+      },
+      err => {
+        this.isSending = false;
+        this.error.state = true;
+        this.error.mess = err.error.data;
+        console.log(err);
+      }
+    );
   }
 
 
@@ -65,22 +75,9 @@ export class LoginComponent implements OnInit {
 
   handleResponse(param) {
     $('.ui.form').removeClass('loading');
-    if (param !== null) {
-      if (param['status'] === 'bad') {
-        this.response['Error'] = param['data'];
-        this.response['HasError'] = true;
-        $('#email').addClass('ng-invalid');
-      }
-      if (param['status'] === 'ok') {
-        this.response['mess'] = 'User logged in';
-        this.response['HasError'] = false;
-        window.location.href = this.returnURL;
-        this.auth.saveToken(param['data']);
-      }
-    }
+
   }
 
   get livedata() { return JSON.stringify(this.loginForm.value); }
-  get linkedin() { return config.linkedin; }
 
 }

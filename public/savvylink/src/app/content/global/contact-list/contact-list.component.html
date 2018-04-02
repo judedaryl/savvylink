@@ -1,0 +1,63 @@
+<div class="ui container" style="margin-top:5em">
+  <div class="ui segment mat-elevation-z8 savtimetrackertable-container">
+    <h4 class="ui header">
+      <div class="content">
+        List of Contacts
+      </div>
+    </h4>
+  </div>
+  <div class="savtimetrackertable-container mat-elevation-z8">
+    <div class="savtimetrackertable-loading-shade" *ngIf="isLoadingResults">
+      <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+    </div>
+
+    <div class="savtimetrackertable-header">
+      <mat-form-field>
+        <input matInput (keyup)="searchTrigger.next($event.target.value)" placeholder="Search">
+      </mat-form-field>
+      <button class="ui blue icon button" (click)="dialogTrigger.next()">
+        <i class="refresh icon"></i>
+      </button>
+      <button class="ui yellow icon button" (click)="printpdf()" title="Print">
+        <i class="print icon"></i>
+      </button>
+    </div>
+
+    <mat-table #table [dataSource]="dataSource" class="savtimetrackertable-table" matSort matSortActive="con.ContactPosition"
+      matSortDisableClear matSortDirection="asc">
+
+      <ng-container matColumnDef="con.ContactPosition">
+        <mat-header-cell *matHeaderCellDef mat-sort-header disableClear="true">
+          Position
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row">{{ row.position }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="con.ContactName">
+        <mat-header-cell *matHeaderCellDef mat-sort-header disableClear="true">
+          Name
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row">{{ row.name }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="org.OrganizationName">
+        <mat-header-cell *matHeaderCellDef mat-sort-header disableClear="true">
+          Organization
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row"><a routerLink="/organization/{{ row.organization.org_id }}">{{ row.organization.org_name }}</a></mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="u.UserGivenName">
+        <mat-header-cell *matHeaderCellDef mat-sort-header disableClear="true">
+          Contributor
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row"><a routerLink="/contributions/{{row.user.username}}">{{ row.user.displayname }}</a></mat-cell>
+      </ng-container>
+
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <mat-paginator #paginator [length]="resultsLength" [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]">
+    </mat-paginator>
+  </div>
+
+</div>

@@ -1,9 +1,0 @@
-.org_stack_1 {
-    background: #2f363d;
-}
-.contacts_grid {
-    border-left: 1px solid #d9d9d9
-}
-.ui.grid>.column+.divider, .ui.grid>.row>.column+.divider {
-    left: 50%;
-}

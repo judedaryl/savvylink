@@ -15,7 +15,7 @@ class ContactModel {
         var offset = (param.offset == undefined) ? 0 : param.offset;
         var limit = (param.limit == undefined) ? 10 : param.limit;
         limit = parseInt(limit);
-        limit = limit - 1;
+        // limit = limit - 1;
         offset = parseInt(offset);
         var order = (param.order == undefined) ? 'asc' : param.order;
         var search = (param.search == undefined) ? '' : param.search;
@@ -276,7 +276,8 @@ class ContactModel {
         function sqlquery() {
             var query = 'delete from dbo.[Contact] ';
             query += "where UserID = " + param.user_id + " ";
-            query += "and OrganizationID = " + para.org_id + " ";
+            query += "and OrganizationID = " + param.org_id + " ";
+            console.log(param);
             var request = new Request(query, (err, rowCount, rows) => {
                 if (err) callback(err)
                 else {

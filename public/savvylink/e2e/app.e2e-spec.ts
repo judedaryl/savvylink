@@ -1,6 +1,6 @@
 import { AppPage } from './app.po';
 
-describe('savvylink App', () => {
+describe('savvylink-angular App', () => {
   let page: AppPage;
 
   beforeEach(() => {

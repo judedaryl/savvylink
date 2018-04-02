@@ -1,23 +1,17 @@
-import { Router } from '@angular/router/';
-import { fadeAnimation } from './animations/fade.animation';
+import { Router } from '@angular/router';
+import { AuthenticationService } from './services/authentication.service';
 import { Component } from '@angular/core';
-
-
 declare var $: any;
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
-  // animations: [fadeAnimation]
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-
-  constructor(private router: Router) {
+  title = 'app';
+  constructor(private router: Router, private auth: AuthenticationService) {
     this.router.events.subscribe(events => {
       $('.ui.modals.page').remove();
     });
-  }
-  public getRouterOutletState(outlet) {
-    return outlet.isActivated ? outlet.activatedRoute : '';
   }
 }

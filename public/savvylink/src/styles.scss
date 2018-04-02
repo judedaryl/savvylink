@@ -1,0 +1,160 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import '~@angular/material/prebuilt-themes/deeppurple-amber';
+body {
+    background: #f9f9f9 !important;
+}
+
+.width-full {
+    width: 100% !important;
+}
+
+/** padding **/
+
+.pd-0 {
+    padding-top: 0px !important;
+}
+
+.mb-4 {
+    margin-bottom: 24px !important;
+}
+
+.mb-50 {
+    margin-bottom: 50px !important;
+}
+
+.text-white {
+    color: #fff !important;
+}
+
+@media (min-width: 1012px) {
+    .alt-lead {
+        font-size: 26px;
+    }
+    .alt-h0 {
+        font-size: 72px;
+    }
+}
+
+@media (min-width: 768px) {
+    .alt-lead {
+        font-size: 24px;
+    }
+    .alt-h0 {
+        font-size: 54px;
+    }
+}
+
+.alt-lead {
+    -webkit-font-smoothing: antialiased;
+    font-size: 21px;
+    font-weight: 300;
+}
+
+.alt-h0, .alt-h1, .alt-h2, .alt-h3, .alt-h4, .alt-h5, .alt-h6, .alt-lead {
+    -webkit-font-smoothing: antialiased;
+    font-family: Roboto, -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Oxygen", "Ubuntu", "Cantarell", "Open Sans", sans-serif;
+}
+
+.lh-condensed-ultra {
+    line-height: 1 !important;
+}
+
+@media (min-height: 320px) {
+    .ui.footer.form-page {
+        /* Increased specificity for SO snippet priority */
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+    }
+}
+
+/*
+   server-side-angular-way.component.css
+*/
+
+.no-data-available {
+    text-align: center;
+}
+
+/*
+       src/styles.css (i.e. your global style)
+    */
+.dataTables_empty {
+    display: none !important;
+}
+
+/** table styles **/
+
+.dataTable thead tr th {
+    background: #eaeaea !important;
+}
+
+.error_resp {
+    color: #bf3131!important;
+    border-color: #bf3131 !important;
+    margin-bottom: 1em !important;
+    width: 100%;
+}
+
+
+.savtimetrackertable-container {
+    display: flex;
+    flex-direction: column;
+    max-height: 1200;
+    min-width: 300px;
+    position: relative;
+  }
+  
+  .savtimetrackertable-header {
+    min-height: 64px;
+    display: flex;
+    align-items: center;
+    padding-left: 24px;
+    font-size: 20px;
+    min-height: 64px;
+    padding: 8px 24px 0;
+  }
+  
+  .savtimetrackertable-table {
+    overflow: auto;
+    min-height: 300px;
+  }
+  
+  .savtimetrackertable-loading-shade {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 56px;
+    right: 0;
+    background: rgba(0, 0, 0, 0.15);
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Column Widths */
+  
+  .mat-table {
+    overflow: auto;
+    max-height: 700px;
+    width:100%;
+    border-collapse:collapse;
+    table-layout:fixed;
+  }
+  
+  .mat-header-row,
+  .mat-row {
+    min-width: 600px !important;
+  }
+  
+  .mat-form-field {
+    font-size: 14px;
+    width: 100%;
+    margin-right: 2em;
+  }
+  
+  .mat-form-field-infix {
+    width: 100% !important;
+  }

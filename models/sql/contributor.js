@@ -74,10 +74,10 @@ class ContributorModel {
         });
 
         function sqlquery() {
-            var query = 'insert into dbo.[Contributor] (UserID, OrganizationID,'
+            var query = 'if not exists(select 1 from dbo.Contributor where UserID = @UserID and OrganizationID = @OrganizationID) begin insert into dbo.[Contributor] (UserID, OrganizationID,'
             query += 'DateCreated, CreatedBy,DateModified, ModifiedBy)';
             query += 'VALUES (@UserID, @OrganizationID,'
-            query += '@DateCreated, @CreatedBy,@DateModified, @ModifiedBy)';
+            query += '@DateCreated, @CreatedBy,@DateModified, @ModifiedBy) end';
             var request = new Request(query, (err, rowCount, rows) => {
                 if (err) callback(err)
                 else {

@@ -1,0 +1,19 @@
+.whole_div {
+height: 100%;
+width: 100%;
+}
+
+.div_1 {
+width: 30%;
+height:100%;
+border: solid blue 1px;
+display: inline-block;
+}
+
+.div_2 {
+width: 70%;
+height:100%;
+float:right;
+border:solid red 1px;
+display: inline-block;
+}

@@ -137,13 +137,153 @@ class OrganizationModel {
                             returnval.result.push(data);
                         }
                     });
-                    
+
                     switch (type) {
                         case 'org_id':
-                        
+
                             break;
                         default:
-                            
+
+                            break;
+                    }
+                    callback(null, returnval);
+                }
+            });
+            request.addParameter('sort', TYPES.NVarChar, sort);
+            request.addParameter('offset', TYPES.Int, offset);
+            request.addParameter('limit', TYPES.Int, limit);
+            return request;
+        }
+    }
+
+    retrieve_(param, type, callback) {
+        var sort = (param.sort == undefined) ? 'OrganizationName' : param.sort;
+        var offset = (param.offset == undefined) ? 0 : param.offset;
+        var limit = (param.limit == undefined) ? 10 : param.limit;
+        limit = parseInt(limit);
+        // limit = limit - 1;
+        offset = parseInt(offset);
+        var order = (param.order == undefined) ? 'asc' : param.order;
+        var search = (param.search == undefined) ? '' : param.search;
+
+        var connection = new Connection(db.sql.config);
+        var query = '';
+        connection.on('connect', function (err) {
+            if (err) return ({
+                error: err.message
+            });
+            else {
+                connection.execSql(sqlquery());
+            }
+        });
+
+        function sqlquery() {
+            var query = 'select org.OrganizationID as _id, org.OrganizationName as name, org.OrganizationType as type, org.OrganizationAddress_1 as address_1, org.OrganizationAddress_2 as address_2, org.OrganizationCity as city, org.OrganizationProvince as province, org.OrganizationCountry as country,cru.UserID, cru.UserName, cru.UserGivenName, org.Total as Total ';
+            query += ' from (select *, count(*) over() AS Total FROM dbo.Organization) org ';
+            query += ' left join dbo.[User] cru ON org.UserID = cru.UserID ';
+            query += " where (OrganizationName like '%" + search + "%' or OrganizationType like '%" + search + "%' or  OrganizationAddress_1 like '%" + search + "%' or OrganizationAddress_2 like '%" + search + "%'  or  OrganizationCity like '%" + search + "%' or  OrganizationProvince like '%" + search + "%'  or OrganizationCountry like '%" + search + "%') ";
+           
+            if (param.user_id != undefined && param.user_id != '') {
+                switch (type) {
+                    case 'contribution':
+                        query += "and contri.UserID = " + param.user_id;
+                        break;
+                    case 'user':
+                        query += "and cru.UserID = " + param.user_id;
+                        break;
+                }
+            }
+            if (param.id != undefined && param.id != '') {
+
+                switch (type) {
+                    case 'org_id':
+                        query += "and org.OrganizationID = " + param.id;
+                        break;
+                }
+            }
+            if (param.name != undefined && param.name != '') {
+                switch (type) {
+                    case 'checkname':
+                        query += "and org.OrganizationName = '" + param.name + "'";
+                        break;
+                }
+            }
+
+            query += ' order by ' + sort + ' ' + order + ' offset @offset rows fetch next ' + limit + ' rows only';
+            var request = new Request(query, (err, rowCount, rows) => {
+                if (err) callback(err)
+                else {
+
+                    var returnval = {
+                        total: 0,
+                        result: [],
+                    }
+
+                    rows.forEach(elem => {
+                        var data = {
+                            _id: 0,
+                            user: {},
+                            contributors: [],
+                            name: '',
+                            type: '',
+                            address_1: '',
+                            address_2: '',
+                            city: '',
+                            province: '',
+                            country: '',
+                            user_id: ''
+                        };
+                        var contributor = {
+                            _id: 0,
+                            username: '',
+                            displayname: '',
+                        }
+                        elem.forEach(val => {
+                            switch (val.metadata.colName) {
+                                case 'UserID':
+                                    data['user_id'] = val.value;
+                                    data['user']['user_id'] = val.value;
+                                    break;
+                                case 'UserGivenName':
+                                    data['user']['displayname'] = val.value;
+                                    break
+                                case 'UserName':
+                                    data['user']['username'] = val.value;
+                                    break;
+                                case 'Total':
+                                    returnval.total = val.value;
+                                    break;
+                                case 'ContributorID':
+                                    contributor._id = val.value;
+                                    break;
+                                case 'ContributorUserName':
+                                    contributor.username = val.value;
+                                    break;
+                                case 'ContributorGivenName':
+                                    contributor.displayname = val.value;
+                                    if (contributor.displayname != null) {
+                                        data.contributors.push(contributor);
+                                    }
+                                    break;
+                                default:
+                                    data[val.metadata.colName] = val.value;
+                                    break;
+                            }
+                        });
+                        if (returnval.result.some(val => val._id == data._id)) {
+                            var existId = returnval.result.findIndex(val => val._id == data._id);
+                            returnval.result[existId].contributors.push(contributor);
+                        } else {
+                            returnval.result.push(data);
+                        }
+                    });
+
+                    switch (type) {
+                        case 'org_id':
+
+                            break;
+                        default:
+
                             break;
                     }
                     callback(null, returnval);

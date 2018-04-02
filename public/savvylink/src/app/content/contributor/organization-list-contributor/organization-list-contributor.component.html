@@ -1,0 +1,276 @@
+<div class="ui segment mat-elevation-z8 savtimetrackertable-container">
+  <h4 class="ui header">
+    <div class="content">
+      List of Organizations by {{contributor.name}}
+    </div>
+  </h4>
+</div>
+<div class="savtimetrackertable-container mat-elevation-z8">
+  <div class="savtimetrackertable-loading-shade" *ngIf="isLoadingResults">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  </div>
+
+  <div class="savtimetrackertable-header">
+    <mat-form-field>
+      <input matInput (keyup)="searchTrigger.next($event.target.value)" placeholder="Search">
+    </mat-form-field>
+    <button class="ui blue icon button" (click)="dialogTrigger.next()">
+      <i class="refresh icon"></i>
+    </button>
+    <button class="ui yellow icon button" (click)="printpdf()" title="Print">
+      <i class="print icon"></i>
+    </button>
+    <button class="ui green button" *ngIf="isUser" (click)="addOrg()">Create</button>
+  </div>
+
+  <mat-table #table [dataSource]="dataSource" class="savtimetrackertable-table" matSort matSortActive="name" matSortDisableClear
+    matSortDirection="asc">
+
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef mat-sort-header disableClear="true">
+        Name
+      </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <a routerLink="../organization/{{row._id}}">{{ row.name }}</a>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="city">
+      <mat-header-cell *matHeaderCellDef mat-sort-header disableClear="true">
+        City
+      </mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.city }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="province">
+      <mat-header-cell *matHeaderCellDef mat-sort-header disableClear="true">
+        Province
+      </mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.province }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="country">
+      <mat-header-cell *matHeaderCellDef mat-sort-header disableClear="true">
+        Country
+      </mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.country }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef disableClear="true">
+        Actions
+      </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <button class="ui icon basic button" title="Modify" (click)="editOrg(row._id)" *ngIf="row.user.user_id === curUser_id">
+          <i class="write green icon"></i>
+        </button>
+        <button class="ui icon basic button" title="Remove" (click)="showApprove(row._id)">
+          <i class="remove red icon"></i>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+  <mat-paginator #paginator [length]="resultsLength" [pageSize]="10" [pageSizeOptions]="[5, 10, 20, 50]">
+  </mat-paginator>
+</div>
+
+
+
+
+
+
+<div class="ui tiny modal approvalDelete">
+  <div class="header">Delete Organization</div>
+  <div class="content">
+    <p>Are you sure you want to remove {{org_name}}?</p>
+    <p>Your contacts for this organization will be deleted as well.</p>
+  </div>
+  <div class="actions">
+    <button class="ui cancel button black">Cancel</button>
+    <button class="ui positive right labeled icon button deleteorgbtn" (click)="delete(org_id)">
+      Approve
+      <i class="remove icon"></i>
+    </button>
+  </div>
+</div>
+
+
+<div class="ui tiny modal organization_edit">
+  <div class="header">
+    Edit Organization
+  </div>
+  <div>
+    <div class="ui grid container" style="margin:0px !important">
+      <div class="sixteen wide column" style="padding:20px;">
+        <form class="ui form" [formGroup]="organizationform">
+          <div class="field">
+            <label>Name
+              <span style="color: red">*</span>
+            </label>
+            <div class="ui left icon input org-name">
+              <input type="text" placeholder="e.g. Savvy Inc" formControlName="name">
+              <i class="building outline icon org-icon"></i>
+            </div>
+          </div>
+          <div class="field">
+            <label>Type</label>
+            <div class="ui right aligned fluid search typesearch">
+              <div class="ui left icon input">
+                <input class="prompt" type="text" formControlName="type" placeholder="e.g. Non government">
+                <i class="puzzle icon"></i>
+              </div>
+              <div class="results"></div>
+            </div>
+          </div>
+          <div class="field">
+            <label>Address</label>
+            <div class="fields">
+              <div class="four wide field">
+                <div class="ui left icon input">
+                  <input type="text" formControlName="address_1" />
+                  <i class="map pin icon"></i>
+                </div>
+              </div>
+              <div class="twelve wide field">
+                <div class="ui left icon input">
+                  <input type="text" formControlName="address_2" />
+                  <i class="map signs icon"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="fields">
+            <div class="eight wide field">
+              <label>City
+                <span style="color: red">*</span>
+              </label>
+              <div class="ui left icon input">
+                <input type="text" formControlName="city" />
+                <i class="map outline icon"></i>
+              </div>
+            </div>
+            <div class="eight wide field">
+              <label>Province
+                <span style="color: red">*</span>
+              </label>
+              <div class="ui left icon input">
+                <input type="text" formControlName="province" />
+                <i class="map icon"></i>
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <label>Country
+              <span style="color: red">*</span>
+            </label>
+            <div class="ui left icon input">
+              <input type="text" formControlName="country" />
+              <i class="flag outline icon"></i>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="actions">
+    <div class="ui black deny button">
+      Cancel
+    </div>
+    <button class="ui positive right labeled icon button submitorg" [disabled]="organizationform.invalid" (click)="submitEditOrg()">
+      Save
+      <i class="save icon"></i>
+    </button>
+  </div>
+</div>
+
+
+
+
+<div class="ui tiny modal organization_create">
+  <div class="header">
+    Create Organization
+  </div>
+  <div>
+    <div class="ui grid container" style="margin:0px !important">
+      <div class="sixteen wide column" style="padding:20px;">
+        <form class="ui form" [formGroup]="organizationform">
+          <div class="field">
+            <label>Name
+              <span style="color: red">*</span>
+            </label>
+            <div class="ui left icon input org-name">
+              <input type="text" placeholder="e.g. Savvy Inc" formControlName="name">
+              <i class="building outline icon org-icon"></i>
+            </div>
+          </div>
+          <div class="field">
+            <label>Type</label>
+            <div class="ui right aligned fluid search typesearch">
+              <div class="ui left icon input">
+                <input class="prompt" type="text" formControlName="type" placeholder="e.g. Non government">
+                <i class="puzzle icon"></i>
+              </div>
+              <div class="results"></div>
+            </div>
+          </div>
+          <div class="field">
+            <label>Address</label>
+            <div class="fields">
+              <div class="four wide field">
+                <div class="ui left icon input">
+                  <input type="text" formControlName="address_1" />
+                  <i class="map pin icon"></i>
+                </div>
+              </div>
+              <div class="twelve wide field">
+                <div class="ui left icon input">
+                  <input type="text" formControlName="address_2" />
+                  <i class="map signs icon"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="fields">
+            <div class="eight wide field">
+              <label>City
+                <span style="color: red">*</span>
+              </label>
+              <div class="ui left icon input">
+                <input type="text" formControlName="city" />
+                <i class="map outline icon"></i>
+              </div>
+            </div>
+            <div class="eight wide field">
+              <label>Province
+                <span style="color: red">*</span>
+              </label>
+              <div class="ui left icon input">
+                <input type="text" formControlName="province" />
+                <i class="map icon"></i>
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <label>Country
+              <span style="color: red">*</span>
+            </label>
+            <div class="ui left icon input">
+              <input type="text" formControlName="country" />
+              <i class="flag outline icon"></i>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="actions">
+    <div class="ui black deny button">
+      Cancel
+    </div>
+    <button class="ui positive right labeled icon button submitorg" [disabled]="organizationform.invalid" (click)="submitCreateOrg()">
+      Save
+      <i class="save icon"></i>
+    </button>
+  </div>
+</div>
