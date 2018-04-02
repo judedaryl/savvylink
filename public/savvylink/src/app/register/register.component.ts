@@ -46,7 +46,7 @@ export class RegisterComponent implements OnInit {
     this.userDao.register(this.registrationForm.value).subscribe(
       val => {
         this.isSending = false;
-        this.userDao.login(this.userDao.login(this.registrationForm.value)).subscribe(val_ => {
+        this.userDao.login(this.registrationForm.value).subscribe(val_ => {
           this.auth.login(val_);
           $('.ui.form').removeClass('loading');
         });
