@@ -23,6 +23,12 @@ module.exports = function (Organization, Contact, User) {
         })
     });
 
+    router.get('/count', (req,res,next) => {
+        ConModel.count((err,resp) => {
+            res.send(resp);
+        });
+    })
+
     router.get('/get/byid', (req, res, next) => {
         ConModel.retrieve(req.query, 'con_id', (err, resp) => {
             if (err) res.status(400).send({

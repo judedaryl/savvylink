@@ -287,5 +287,37 @@ class ContactModel {
             connection.execSql(request);
         }
     }
+
+    count(callback) {
+        var connection = new Connection(db.sql.config);
+        var query = '';
+        connection.on('connect', function (err) {
+            if (err) return ({
+                error: err.message
+            });
+            else {
+                connection.execSql(sqlquery());
+            }
+        });
+
+        function sqlquery() {
+            var query = 'select COUNT(*) as total from dbo.Contact';
+            var request = new Request(query, (err, rowCount, rows) => {
+                if (err) callback(err)
+                else {
+                    var returnval = {
+                        total: 0,
+                        result: [],
+                    }
+                    rows[0].forEach(val => {
+                        returnval.result = [{count: val.value}];
+                        returnval.total = 1;
+                    });
+                    callback(null, returnval);
+                }
+            });
+            return request;
+        }
+    }
 }
 module.exports = new ContactModel();

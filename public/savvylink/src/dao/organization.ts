@@ -87,6 +87,10 @@ export class OrganizationDao {
             return this.http.request('delete', environment.orgApiRemoveById, { body: body });
         } catch (error) { }
     }
+
+    count() {
+        return this.http.get(environment.orgApiCount);
+    }
     private addBody(formObject) {
         let body = new HttpParams();
         $.each(formObject, function (key, value) {

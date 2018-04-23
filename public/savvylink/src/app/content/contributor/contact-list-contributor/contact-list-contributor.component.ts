@@ -122,6 +122,7 @@ export class ContactListContributorComponent implements OnInit, AfterViewInit {
 
   addContact() {
     this.contact.reset();
+    this.orglist = [];
     this.orgDao.getListByContributorAll(this.cDS._id).subscribe(
       resp => {
         this.organizations = resp.result.data;
@@ -171,6 +172,7 @@ export class ContactListContributorComponent implements OnInit, AfterViewInit {
   }
 
   editContact(id) {
+    this.orglist = [];
     this.contact.reset();
     this.data['id'] = id;
     const con = this.dataSource.data.find(x => x['_id'] === id);

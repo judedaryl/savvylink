@@ -92,7 +92,11 @@ export class ContactDao {
         } catch (error) { }
     }
 
-    addBody(formObject) {
+    count() {
+        return this.http.get(environment.contactApiCount);
+    }
+
+    private addBody(formObject) {
         let body = new HttpParams();
         $.each(formObject, function (key, value) {
             body = body.append(key, value);

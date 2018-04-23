@@ -27,6 +27,12 @@ module.exports = function () {
         });
     });
 
+    router.get('/count', (req,res,next) => {
+        OrgModel.count((err,resp) => {
+            res.send(resp);
+        });
+    })
+
     
     router.get('/get/all', (req, res, next) => {
         OrgModel.retrieve_(req.query, 'getall' ,(err, resp) => {

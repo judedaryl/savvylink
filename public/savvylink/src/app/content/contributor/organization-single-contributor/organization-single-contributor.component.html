@@ -7,14 +7,11 @@
 
 <div class="ui stackable grid" style="margin:0px; padding:0px">
   <div class="eleven wide column" style="padding:0px">
-
-    <div class="ui segment mat-elevation-z8 savtimetrackertable-container">
-      <h4 class="ui header">
-        <div class="content">
-          List of Contacts for {{org_name}}
-        </div>
-      </h4>
-    </div>
+    <mat-card style="padding: 10px 24px 10px 24px; margin-bottom:1em">
+      <mat-card-content style="font-size:15px; font-weight: 500">
+        List of Contacts for {{org_name}} connected with {{contributor?.name}}
+      </mat-card-content>
+    </mat-card>
     <div class="savtimetrackertable-container mat-elevation-z8">
       <div class="savtimetrackertable-loading-shade" *ngIf="isLoadingResults">
         <mat-spinner *ngIf="isLoadingResults"></mat-spinner>

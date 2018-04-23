@@ -1,3 +1,53 @@
-<p>
-  home works!
-</p>
+<div class="home_stack_1">
+  <div class="ui container" style="padding-top:50px">
+    <div class="ui grid ">
+      <div class="row">
+        <div class="one wide column"></div>
+        <div class="fourteen wide column">
+          <div class="ui grid stackable">
+            <div class="row">
+              <div class="sixteen wide column equal height">
+                <div class="ui segments" style="border: none !important; box-shadow: none !important; padding:50px">
+                  <div class="ui header" style="font-size:4em">
+                    Savvylink
+                    <div class="sub header" style="font-size:1.5rem">
+                      Connecting you to the people you need.
+                    </div>
+                  </div>
+
+                  <div class="ui statistics" style="margin-top:5rem">
+                    <div class="statistic">
+                      <div class="value">
+                        {{hits}}
+                      </div>
+                      <div class="label">
+                        Visitors
+                      </div>
+                    </div>
+                    <a class="statistic" routerLink="/organization-list">
+                      <div class="value">
+                        <i class="building icon"></i> {{orgcount}}
+                      </div>
+                      <div class="label">
+                        Organizations
+                      </div>
+                    </a>
+                    <a class="statistic" routerLink="/contact-list">
+                      <div class="value">
+                        <i class="user outline icon"></i> {{concount}}
+                      </div>
+                      <div class="label">
+                        Contacts
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="one wide column"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

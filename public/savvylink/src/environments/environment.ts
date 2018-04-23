@@ -5,8 +5,8 @@
 
 const debug = true;
 // const baseapiurl = debug ? '/api/' : 'http://localhost:' + serverport + '/api/';
-const baseapiurl = !debug ? '/api/' : 'http://localhost:3000/api/';
-const baseurl = !debug ? '/' : 'http://localhost:3000/';
+const baseapiurl = !debug ? '/api/' : 'http://localhost:3005/api/';
+const baseurl = !debug ? '/' : 'http://localhost:3005/';
 
 export const environment = {
   production: true,
@@ -25,6 +25,7 @@ export const environment = {
   orgApiByContribution: baseapiurl + 'organization/get/contribution',
   orgApiContribute: baseapiurl + 'organization/modify/contribute',
   checkOrgNameApi: baseapiurl + 'organization/get/checkname',
+  orgApiCount: baseapiurl + 'organization/count',
 
   contactApiCreate: baseapiurl + 'contact/create',
   contactApiGet: baseapiurl + 'contact/get',
@@ -33,7 +34,7 @@ export const environment = {
   contactApiGetByOrgContribution: baseapiurl + 'contact/get/org/contribution',
   contactApiGetByUsers: baseapiurl + 'contact/get/users',
   contactApiRemoveById: baseapiurl + 'contact/remove',
-
+  contactApiCount: baseapiurl + 'contact/count',
 
   statisticsApi: baseurl + 'hit',
   registerApi: baseurl + 'user/register',

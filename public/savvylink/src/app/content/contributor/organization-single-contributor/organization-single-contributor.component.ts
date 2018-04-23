@@ -73,15 +73,22 @@ export class OrganizationSingleContributorComponent implements OnInit, AfterView
     { title: 'Society' },
   ];
   constructor(
-    private route: ActivatedRoute, private orgDS: OrganizationdataService,
+    private router: ActivatedRoute, private orgDS: OrganizationdataService,
     private cDS: ContributorDataService, private builder: FormBuilder,
     private orgDao: OrganizationDao, private userDS: UserdataService,
     private contactDao: ContactDao, private location: Location,
     private print: PrintService
   ) { }
   ngOnInit() {
-    this.route.params.subscribe(() => {
-      this.initializeData(this.route.snapshot.data.content['result'][0]);
+    this.router.params.subscribe(() => {
+      if (this.userDS.id !== this.cDS._id) {
+        this.displayedColumns = ['con.ContactPosition', 'con.ContactName', 'org.OrganizationName'];
+        this.isUser = false;
+      } else {
+        this.displayedColumns = ['actions', 'con.ContactPosition', 'con.ContactName', 'org.OrganizationName'];
+        this.isUser = true;
+      }
+      this.initializeData(this.router.snapshot.data.content['result'][0]);
       this.generateForm();
     });
   }
@@ -103,7 +110,7 @@ export class OrganizationSingleContributorComponent implements OnInit, AfterView
     this.orgDS.setData(data);
     this.org = this.orgDS._organization;
     this.contributor = this.cDS.profile;
-    this.isUser = this.userDS.id === this.cDS._id;
+    this.isUser = (this.userDS.id === this.cDS._id) && (this.userDS.id === parseInt(this.orgDS.user.user_id, 10));
     this.generateForm();
   }
 

@@ -10,10 +10,10 @@ module.exports = {
   sql: {
     config: {
       userName: 'judedaryl', // update me
-      password: 'licorice123', // update me
-      server: 'localhost', // update me
+      password: 'sogeneric123!', // update me
+      server: 'darsql.database.windows.net', // update me
       options: {
-        database: 'savvylink' //update me
+        database: 'dardatabase' //update me
           ,
         encrypt: true,
         rowCollectionOnDone: true,

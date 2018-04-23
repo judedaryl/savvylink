@@ -6,7 +6,7 @@ module.exports= {
     serverUrl: 'http://localhost:' + port,
     angularRedirect: 'http://localhost:3000/',
     jwt : 'J38duw08123WkzxclkEus7D',
-    jwtexpire : 3600*5,
+    jwtexpire : 360000*5,
 
     /**
      * Defaults for registration

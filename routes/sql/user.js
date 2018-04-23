@@ -5,10 +5,6 @@ var UserModel = require('../../models/sql/user');
 
 module.exports = function () {
 
-    router.get('/wew', (req, res, next) => {
-        res.send({wew: 'wew'});
-        //res.sendStatus(403);
-    });
     router.post('/login', (req, res, next) => {
         UserModel.login(req.body, (err, resp, unauth) => {
             if (err) res.status(400).send(err);
@@ -61,6 +57,12 @@ module.exports = function () {
             }
         });
     });
+
+    router.get('/count', (req,res,next) => {
+        UserModel.count((err,resp) => {
+            res.send(resp);
+        });
+    })
 
     return router;
 }

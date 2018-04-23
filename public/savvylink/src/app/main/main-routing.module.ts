@@ -1,3 +1,4 @@
+import { StatisticsResolve } from './../resolve/statistic.resolve';
 import { TestComponent } from './../test/test.component';
 import { OrganizationSingleContributorComponent } from './../content/contributor/organization-single-contributor/organization-single-contributor.component';
 import { UserNameResolve } from './../resolve/userdata.resolve';
@@ -31,7 +32,7 @@ const routes: Routes = [
         component: ContentComponent,
         canActivate: [AuthenticationGuard],
         children: [
-          { path: '', redirectTo: 'organization-list', pathMatch: 'full' },
+          { path: '', component: HomeComponent, resolve: { statistic: StatisticsResolve } },
           { path: 'organization-list', component: OrganizationListComponent },
           { path: 'contact-list', component: ContactListComponent },
           {

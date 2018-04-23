@@ -17,6 +17,7 @@ import { MainRoutingModule } from './main-routing.module';
 import { RegisterComponent } from '../register/register.component';
 import { UserDao } from '../../dao/user';
 import { UserdataService } from '../services/userdata.service';
+import { StatisticsResolve } from '../resolve/statistic.resolve';
 
 @NgModule({
   imports: [
@@ -31,6 +32,7 @@ import { UserdataService } from '../services/userdata.service';
   providers: [
     OrganizationGlobalResolve,
     UserDataResolve,
+    StatisticsResolve,
     UserNameResolve,
     UserdataService,
     AuthenticationGuard,

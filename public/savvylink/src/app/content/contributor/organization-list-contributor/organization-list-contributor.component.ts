@@ -36,7 +36,7 @@ export class OrganizationListContributorComponent implements OnInit, AfterViewIn
   resultsLength = 0;
   org_form_text = '';
   isLoadingResults = true;
-  contributor: Contributor;
+  _contributor: Contributor;
   org: Organization;
   organizationform: FormGroup;
   selected_org: Organization;
@@ -70,9 +70,9 @@ export class OrganizationListContributorComponent implements OnInit, AfterViewIn
     private print: PrintService) { }
 
   ngOnInit() {
-    this.contributor = this.cDS.profile;
     this.generateForm();
-    this.router.params.subscribe(() => {
+    this.router.parent.params.subscribe(() => {
+      this._contributor = this.cDS.profile;
       if (this.userDS.id !== this.cDS._id) {
         this.displayedColumns = ['name', 'city', 'province', 'country'];
         this.isUser = false;
@@ -80,6 +80,7 @@ export class OrganizationListContributorComponent implements OnInit, AfterViewIn
         this.displayedColumns = ['actions', 'name', 'city', 'province', 'country'];
         this.isUser = true;
       }
+      this.dialogTrigger.next();
     });
   }
 
@@ -295,6 +296,10 @@ export class OrganizationListContributorComponent implements OnInit, AfterViewIn
   }
   get curUser_id() {
     return this.userDS.id;
+  }
+
+  get contributor(): Contributor {
+    return this._contributor;
   }
 
 }
