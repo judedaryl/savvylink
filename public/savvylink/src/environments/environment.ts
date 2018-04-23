@@ -5,8 +5,8 @@
 
 const debug = true;
 // const baseapiurl = debug ? '/api/' : 'http://localhost:' + serverport + '/api/';
-const baseapiurl = !debug ? '/api/' : 'http://localhost:3005/api/';
-const baseurl = !debug ? '/' : 'http://localhost:3005/';
+const baseapiurl = !debug ? '/api/' : 'http://savvylink.savvyasia.com/api/';
+const baseurl = !debug ? '/' : 'http://savvylink.savvyasia.com/';
 
 export const environment = {
   production: true,
