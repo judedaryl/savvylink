@@ -24,7 +24,6 @@ export class AppComponent {
 
     this.router.events.subscribe(events => {
       $('.ui.modals.page').remove();
-      console.log(events);
       if (events['url'] === '/') {
         if (events instanceof NavigationStart) {
           window.loadingscreen = window.pleaseWait({
