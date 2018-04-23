@@ -9,6 +9,8 @@ export class UserdataService {
   private _email: string;
   private _photo: string;
   private _name: string;
+  private _hits: any;
+
   profile: Profile;
   constructor() { }
 
@@ -49,6 +51,14 @@ export class UserdataService {
   }
   set photo(Photo: string) {
     this._photo = Photo;
+  }
+
+  get hits() {
+    return this._hits;
+  }
+
+  set hits(hits) {
+    this._hits = hits;
   }
 }
 

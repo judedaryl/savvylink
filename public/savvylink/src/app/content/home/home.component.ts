@@ -1,3 +1,4 @@
+import { UserdataService } from './../../services/userdata.service';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { ContactDao } from './../../../dao/contact';
@@ -15,13 +16,13 @@ export class HomeComponent implements OnInit {
   orgcount = 0;
   concount = 0;
   constructor(private userDao: UserDao, private orgDao: OrganizationDao,
-    private route: ActivatedRoute, private conDao: ContactDao) { }
+    private route: ActivatedRoute, private conDao: ContactDao, private uDS: UserdataService) { }
 
   ngOnInit() {
     const stat = this.route.snapshot.data.statistic;
-    this.hits = stat[0]['results']['count'];
-    this.concount = stat[1]['result'][0]['count'];
-    this.orgcount = stat[2]['result'][0]['count'];
+    this.hits = this.uDS.hits;
+    this.concount = stat[0]['result'][0]['count'];
+    this.orgcount = stat[1]['result'][0]['count'];
   }
 
 }

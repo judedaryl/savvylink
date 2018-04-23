@@ -15,10 +15,9 @@ export class StatisticsResolve implements Resolve<any> {
 
     resolve(route: ActivatedRouteSnapshot) {
         if (this.auth.getToken) {
-            const hitsReq = this.userDao.hits();
             const conCountReq = this.conDao.count();
             const orgCountReq = this.orgDao.count();
-            const lookupCombined = Observable.combineLatest(hitsReq, conCountReq, orgCountReq);
+            const lookupCombined = Observable.combineLatest(conCountReq, orgCountReq);
             return lookupCombined.catch(err => {
                 this.router.navigate(['/']);
                 return Observable.empty();
