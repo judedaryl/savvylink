@@ -32,9 +32,9 @@ export class AppComponent {
             loadingHtml: html
           });
         }
-        if (events instanceof NavigationEnd) {
-          window.loadingscreen.finish();
-        }
+      }
+      if (events instanceof NavigationEnd) {
+        window.loadingscreen.finish();
       }
     });
   }
