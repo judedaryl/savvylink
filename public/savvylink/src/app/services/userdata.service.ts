@@ -1,6 +1,8 @@
 import { Contributor } from './../../model/profile';
 import { Injectable } from '@angular/core';
 import { Profile } from '../../model/profile';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class UserdataService {
@@ -9,7 +11,7 @@ export class UserdataService {
   private _email: string;
   private _photo: string;
   private _name: string;
-  private _hits: any;
+  private _hits: BehaviorSubject<any> = new BehaviorSubject<any>(0);
 
   profile: Profile;
   constructor() { }
@@ -53,12 +55,12 @@ export class UserdataService {
     this._photo = Photo;
   }
 
-  get hits() {
-    return this._hits;
+  get hits(): Observable<any> {
+    return this._hits.asObservable();
   }
 
-  set hits(hits) {
-    this._hits = hits;
+  setHits(hits) {
+    this._hits.next(hits);
   }
 }
 

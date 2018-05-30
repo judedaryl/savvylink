@@ -34,7 +34,9 @@ export class AppComponent {
         }
       }
       if (events instanceof NavigationEnd) {
-        window.loadingscreen.finish();
+        if (typeof window.loadingscreen !== 'undefined') {
+          window.loadingscreen.finish();
+        }
       }
     });
   }

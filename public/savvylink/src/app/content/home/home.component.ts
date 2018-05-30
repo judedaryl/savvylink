@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { ContactDao } from './../../../dao/contact';
 import { UserDao } from './../../../dao/user';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { OrganizationDao } from '../../../dao/organization';
 
 @Component({
@@ -20,9 +20,10 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     const stat = this.route.snapshot.data.statistic;
-    this.hits = this.uDS.hits;
+    this.uDS.hits.subscribe(val => {
+      this.hits = val;
+    });
     this.concount = stat[0]['result'][0]['count'];
     this.orgcount = stat[1]['result'][0]['count'];
   }
-
 }

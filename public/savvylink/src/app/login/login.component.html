@@ -17,11 +17,11 @@
       <form class="ui form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div class="field">
           <label>Email Address</label>
-          <input type="text" placeholder="you@example.com" email formControlName="email">
+          <input type="text" placeholder="you@example.com" email formControlName="email" name="email">
         </div>
         <div class="field">
           <label>Password</label>
-          <input type="password" placeholder="Password" formControlName="password">
+          <input type="password" placeholder="Password" formControlName="password" name="password">
         </div>
         <button class="ui button teal width-full mt-3" type="submit" [disabled]="loginForm.invalid">Sign In</button>
       </form>

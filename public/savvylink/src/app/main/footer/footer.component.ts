@@ -14,7 +14,7 @@ export class FooterComponent implements OnInit {
 
   ngOnInit() {
     this.userDao.hits().subscribe(
-      val => { this.hits = val['results']['count']; this.uDS.hits = this.hits; }
+      val => { this.hits = val['results']['count']; this.uDS.setHits(this.hits); }
     );
   }
 

@@ -16,19 +16,19 @@ export class AuthenticationService {
     this.router.navigateByUrl('/login');
   }
   private saveToken(token) {
-    localStorage.setItem('token', token);
+    localStorage.setItem('SAVVYLINK_TOKEN', token);
   }
 
   get getToken(): string {
-    return localStorage.getItem('token');
+    return localStorage.getItem('SAVVYLINK_TOKEN');
   }
 
   get isAuthenticated(): boolean {
 
-    return (localStorage.getItem('token') !== null);
+    return (localStorage.getItem('SAVVYLINK_TOKEN') !== null);
   }
   removeToken(): void {
-    localStorage.removeItem('token');
+    localStorage.removeItem('SAVVYLINK_TOKEN');
     this.router.navigateByUrl('/');
   }
 }
